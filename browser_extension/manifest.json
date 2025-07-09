@@ -1,0 +1,48 @@
+{
+  "manifest_version": 3,
+  "name": "MCP Job Application Agent",
+  "version": "1.0.0",
+  "description": "AI-powered job application assistant that autofills applications and scrapes job descriptions",
+  "icons": {
+    "16": "icons/icon16.png",
+    "32": "icons/icon32.png",
+    "48": "icons/icon48.png",
+    "128": "icons/icon128.png"
+  },
+  "action": {
+    "default_popup": "popup/index.html",
+    "default_title": "MCP Job Application Agent"
+  },
+  "permissions": [
+    "storage",
+    "activeTab",
+    "scripting",
+    "identity"
+  ],
+  "host_permissions": [
+    "https://*.linkedin.com/*",
+    "https://*.indeed.com/*",
+    "https://*.workday.com/*"
+  ],
+  "background": {
+    "service_worker": "background.js"
+  },
+  "content_scripts": [
+    {
+      "matches": [
+        "https://*.linkedin.com/jobs/*",
+        "https://*.indeed.com/viewjob*",
+        "https://*.workday.com/*"
+      ],
+      "js": ["content-scripts/job-scraper.js"]
+    },
+    {
+      "matches": [
+        "https://*.linkedin.com/jobs/application/*",
+        "https://*.indeed.com/apply/*",
+        "https://*.workday.com/*/apply/*"
+      ],
+      "js": ["content-scripts/form-filler.js"]
+    }
+  ]
+}

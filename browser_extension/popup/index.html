@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MCP Job Application Agent</title>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+  <style>
+    body {
+      width: 400px;
+      min-height: 450px;
+      overflow-y: auto;
+    }
+    .tab-content {
+      display: none;
+    }
+    .tab-content.active {
+      display: block;
+    }
+  </style>
+</head>
+<body class="bg-gray-50">
+  <div class="p-4">
+    <!-- Header -->
+    <header class="flex items-center justify-between mb-6">
+      <div class="flex items-center">
+        <img src="../icons/icon48.png" alt="Logo" class="w-8 h-8 mr-2">
+        <h1 class="text-xl font-bold text-gray-800">MCP Job Application Agent</h1>
+      </div>
+    </header>
+    
+    <!-- Tab Navigation -->
+    <div class="border-b border-gray-200 mb-4">
+      <ul class="flex -mb-px" id="tab-navigation">
+        <li class="mr-2">
+          <button class="tab-button py-2 px-4 font-medium text-sm rounded-t-lg border-b-2 border-transparent hover:border-gray-300 text-gray-500 hover:text-gray-700 active" data-tab="dashboard">Dashboard</button>
+        </li>
+        <li class="mr-2">
+          <button class="tab-button py-2 px-4 font-medium text-sm rounded-t-lg border-b-2 border-transparent hover:border-gray-300 text-gray-500 hover:text-gray-700" data-tab="profile">Profile</button>
+        </li>
+        <li>
+          <button class="tab-button py-2 px-4 font-medium text-sm rounded-t-lg border-b-2 border-transparent hover:border-gray-300 text-gray-500 hover:text-gray-700" data-tab="settings">Settings</button>
+        </li>
+      </ul>
+    </div>
+    
+    <!-- Tab Content -->
+    <div class="tab-content active" id="dashboard-tab">
+      <h2 class="text-lg font-semibold mb-3 text-gray-700">Recent Job Activity</h2>
+      
+      <div id="recent-jobs" class="space-y-3 mb-4">
+        <!-- Jobs will be inserted here via JavaScript -->
+        <div class="text-gray-500 text-sm">No recent job activity.</div>
+      </div>
+      
+      <div class="flex justify-between mt-6">
+        <button id="view-dashboard" class="bg-blue-600 hover:bg-blue-700 text-white py-2 px-4 rounded text-sm font-medium">
+          Open Web Dashboard
+        </button>
+        <button id="capture-job" class="bg-green-600 hover:bg-green-700 text-white py-2 px-4 rounded text-sm font-medium">
+          Capture Current Job
+        </button>
+      </div>
+    </div>
+    
+    <div class="tab-content" id="profile-tab">
+      <h2 class="text-lg font-semibold mb-3 text-gray-700">Your Profile</h2>
+      
+      <div id="login-section" class="hidden">
+        <p class="text-sm text-gray-500 mb-4">Sign in to use your profile data for autofilling job applications.</p>
+        <form id="login-form" class="space-y-4">
+          <div>
+            <label class="block text-gray-700 text-sm font-medium mb-1" for="email">Email Address</label>
+            <input class="w-full px-3 py-2 border border-gray-300 rounded-md text-sm" type="email" id="email" required>
+          </div>
+          <div>
+            <label class="block text-gray-700 text-sm font-medium mb-1" for="password">Password</label>
+            <input class="w-full px-3 py-2 border border-gray-300 rounded-md text-sm" type="password" id="password" required>
+          </div>
+          <div>
+            <button type="submit" class="w-full bg-blue-600 hover:bg-blue-700 text-white py-2 px-4 rounded text-sm font-medium">
+              Sign In
+            </button>
+          </div>
+        </form>
+        <p class="text-xs text-gray-500 mt-4 text-center">
+          Don't have an account? <a href="#" id="open-register" class="text-blue-600 hover:underline">Create one</a>
+        </p>
+      </div>
+      
+      <div id="profile-section" class="hidden">
+        <!-- Profile info will be inserted here via JavaScript -->
+      </div>
+    </div>
+    
+    <div class="tab-content" id="settings-tab">
+      <h2 class="text-lg font-semibold mb-3 text-gray-700">Extension Settings</h2>
+      
+      <div class="space-y-4">
+        <div>
+          <label class="inline-flex items-center">
+            <input type="checkbox" id="enable-autofill" class="form-checkbox h-5 w-5 text-blue-600" checked>
+            <span class="ml-2 text-gray-700">Enable automatic form filling</span>
+          </label>
+        </div>
+        
+        <div>
+          <label class="inline-flex items-center">
+            <input type="checkbox" id="enable-job-scraping" class="form-checkbox h-5 w-5 text-blue-600" checked>
+            <span class="ml-2 text-gray-700">Enable job description scraping</span>
+          </label>
+        </div>
+        
+        <div>
+          <label class="inline-flex items-center">
+            <input type="checkbox" id="show-notifications" class="form-checkbox h-5 w-5 text-blue-600" checked>
+            <span class="ml-2 text-gray-700">Show browser notifications</span>
+          </label>
+        </div>
+        
+        <div>
+          <label class="block text-gray-700 text-sm font-medium mb-1">API Connection</label>
+          <input class="w-full px-3 py-2 border border-gray-300 rounded-md text-sm" type="text" id="api-url" placeholder="API URL (e.g. https://api.example.com)">
+        </div>
+      </div>
+      
+      <div class="flex justify-between mt-6">
+        <button id="reset-settings" class="bg-gray-200 hover:bg-gray-300 text-gray-800 py-2 px-4 rounded text-sm font-medium">
+          Reset to Default
+        </button>
+        <button id="save-settings" class="bg-blue-600 hover:bg-blue-700 text-white py-2 px-4 rounded text-sm font-medium">
+          Save Settings
+        </button>
+      </div>
+    </div>
+  </div>
+  
+  <script src="popup.js"></script>
+</body>
+</html>

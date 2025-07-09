@@ -1,0 +1,36 @@
+version: '3.8'
+
+services:
+  # Backend service
+  backend:
+    build: ./backend
+    ports:
+      - "8000:8000"
+    environment:
+      - DATABASE_URL=sqlite:///./app.db
+      - SECRET_KEY=changethisinsecuresecretkey
+      - CORS_ORIGINS=http://localhost:3000
+      - AZURE_OPENAI_ENDPOINT=${AZURE_OPENAI_ENDPOINT}
+      - AZURE_OPENAI_KEY=${AZURE_OPENAI_KEY}
+      - AZURE_OPENAI_DEPLOYMENT=${AZURE_OPENAI_DEPLOYMENT}
+    volumes:
+      - ./backend:/app
+      - backend_data:/app/data
+    command: uvicorn main:app --host 0.0.0.0 --port 8000 --reload
+
+  # Frontend service  
+  frontend:
+    build: ./frontend
+    ports:
+      - "3000:3000"
+    environment:
+      - REACT_APP_API_URL=http://localhost:8000/api
+    volumes:
+      - ./frontend:/app
+      - /app/node_modules
+    depends_on:
+      - backend
+    command: npm start
+
+volumes:
+  backend_data:
